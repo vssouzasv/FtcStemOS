@@ -15,10 +15,10 @@ public class Mechanum extends LinearOpMode {
         // Objeto que guarda os nossos acionadores e sensores
         HardwareClassTracao hard = new HardwareClassTracao(this);
 
-        //Respectivamente eixos do gamepad y, x, x2 (outro analógico)
+        // Respectivamente eixos do gamepad y, x, x2 (outro analógico)
         double drive, turn, giro;
 
-        //Vetor para acionamentos dos motores;
+        // Vetor para acionamentos dos motores;
         private final double[] poder = new double[4];
 
         // Variável que guarda o ângulo do robô (radianos)
@@ -30,16 +30,20 @@ public class Mechanum extends LinearOpMode {
             telemetry.addData("Status", "Initialized");
             telemetry.update();
 
-            //Inicia o hardware do robô
+            // Inicia o hardware do robô
             hard.hardwareGeral();
 
             runtime.reset();
 
-            //Espera o botão start na Ds
+            // Espera o botão start na Ds
             waitForStart();
 
             while (opModeIsActive()) {
-                //Variáveis gamepad
+                /*
+                 * drive controla a translação do robô (frente e trás)
+                 * turn controla a translação do robô (esquerda e direita)
+                 * giro controla a rotação do robô
+                 */
                 drive = -gamepad1.left_stick_y; // Negativo por causa do gamepad
                 turn = gamepad1.left_stick_x * 1.5; // Multiplicamos por um valor para melhorar o strafe
                 giro = gamepad1.right_stick_x;
@@ -48,20 +52,19 @@ public class Mechanum extends LinearOpMode {
                  * Calculo para orientação no campo
                  * caso queira desativar, apenas apague ou comente a linha abaixo
                  */
-
                 fieldOriented(drive, turn);
 
-                //Valores para movimentação com mechanum (lados espelhados)
+                // Valores para movimentação com mechanum (lados espelhados)
                 //Motor Esquerda Frente;
                 poder[0] = drive + turn + giro;
-                //Motor Esquerda trás;
+                // Motor Esquerda trás;
                 poder[1] = drive - turn + giro;
-                //Motor Direita Frente;
+                // Motor Direita Frente;
                 poder[2] = drive - turn - giro;
-                //Motor Direita trás;
+                // Motor Direita trás;
                 poder[3] = drive + turn - giro;
 
-                //Verificar se algum valor é maior que 1
+                // Verificar se algum valor é maior que 1
                 if (Math.abs(poder[0]) > 1 || Math.abs(poder[1]) > 1
                         || Math.abs(poder[2]) > 1 || Math.abs(poder[3]) > 1) {
 
@@ -78,13 +81,13 @@ public class Mechanum extends LinearOpMode {
                     poder[3] /= max;
                 }
 
-                //Metodo setPower que manda força para os motores.
+                // Metodo setPower que manda a potência para os motores.
                 hard.motorEsquerda.setPower(poder[0]);
                 hard.motorEsquerdaTras.setPower(poder[1]);
                 hard.motorDireita.setPower(poder[2]);
                 hard.motorDireitaTras.setPower(poder[3]);
 
-                //Telemetria com os valores de cada roda
+                // Telemetria com os valores de cada roda
                 telemetry.addData("Motor Esquerdo %.2f ", poder[0]);
                 telemetry.addData("Motor EsquerdoTras %.2f ", poder[1]);
                 telemetry.addData("Motor Direita %.2f ", poder[2]);

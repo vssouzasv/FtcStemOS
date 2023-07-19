@@ -47,6 +47,8 @@ public class ArcadeDrive extends LinearOpMode {
         // Cria as variáveis de motores
         DcMotor motorEsquerda = hardwareMap.get(DcMotor.class, "motor_esquerda");
         DcMotor motorDireita = hardwareMap.get(DcMotor.class, "motor_direita");
+        DcMotor motorEsquerdaTras = hardwareMap.get(DcMotor.class, "motor_esquerdaTras");
+        DcMotor motorDireitaTras = hardwareMap.get(DcMotor.class, "motor_direitaTras");
 
         // Define a direção dos motores
         motorEsquerda.setDirection(DcMotor.Direction.REVERSE);
@@ -86,6 +88,8 @@ public class ArcadeDrive extends LinearOpMode {
             // Manda as variáveis (entre [-1, 1]) para os motores individualmente
             motorEsquerda.setPower(powerEsquerda);
             motorDireita.setPower(powerDireita);
+            motorEsquerdaTras.setPower(powerEsquerda);
+            motorDireitaTras.setPower(powerDireita);
 
             // Obtemos os valores dos encoders
             double posEsquerda = motorEsquerda.getCurrentPosition();

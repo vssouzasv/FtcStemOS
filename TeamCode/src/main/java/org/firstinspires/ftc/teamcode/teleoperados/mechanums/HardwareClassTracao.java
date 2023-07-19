@@ -67,6 +67,7 @@ public class HardwareClassTracao {
         // Inicializa o giroscópio
         imu.initialize(new IMU.Parameters(orientationOnRobot));
 
+
         /*
          * =============================================================================
          *                                  ACIONADORES

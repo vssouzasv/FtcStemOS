@@ -92,8 +92,8 @@ public class AutonomoEncoder extends LinearOpMode {
         motorEsquerdaTras  = hardwareMap.get(DcMotor.class, "motor_esquerdaTras");
         motorDireitaTras = hardwareMap.get(DcMotor.class, "motor_direitaTras");
 
-        // Aqui é algo opcinal, colocar os 4 motores em um array DcMotor faz com que
-        // comandos iguais para os 4 motores possa ser simplificado usando funções com loops
+        // Aqui é algo não opcinal, colocar os 4 motores em um array DcMotor faz com que
+        // comandos iguais para os 4 motores possa ser simplificado usando funções com loops for
         motores = new DcMotor[]{motorEsquerda, motorDireita, motorEsquerdaTras, motorDireitaTras};
 
         // Um dos lados do robô sempre tera motores invertidos, portanto revertar os motores aqui

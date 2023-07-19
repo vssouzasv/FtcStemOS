@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.teleoperados.mechanums;
+package org.firstinspires.ftc.teamcode.teleoperados.mecanum;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;

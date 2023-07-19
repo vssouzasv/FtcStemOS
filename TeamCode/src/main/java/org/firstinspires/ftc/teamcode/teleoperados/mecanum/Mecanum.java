@@ -7,8 +7,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
-@TeleOp(name="Mechanum fieldOriented", group="Linear TesteOp")
-public class Mechanum extends LinearOpMode {
+@TeleOp(name="mecanum fieldOriented", group="Linear TesteOp")
+public class Mecanum extends LinearOpMode {
         // Objeto que conta tempo
         ElapsedTime runtime = new ElapsedTime();
 
@@ -54,7 +54,7 @@ public class Mechanum extends LinearOpMode {
                  */
                 fieldOriented(drive, turn);
 
-                // Valores para movimentação com mechanum (lados espelhados)
+                // Valores para movimentação com mecanum (lados espelhados)
                 //Motor Esquerda Frente;
                 poder[0] = drive + turn + giro;
                 // Motor Esquerda trás;

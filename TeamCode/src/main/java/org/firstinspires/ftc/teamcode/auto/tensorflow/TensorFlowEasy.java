@@ -40,7 +40,7 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
 import java.util.List;
 
-// Clase q
+// Clase que faz a iniciação e leitura do TensorFlow
 @TeleOp(name = "TensorFlow Easy", group = "Concept")
 public class TensorFlowEasy extends LinearOpMode {
     // Variável booleana que diz se usaremos webcam ou a câmera do celular
@@ -105,10 +105,10 @@ public class TensorFlowEasy extends LinearOpMode {
         // Cria o vision portal dependendo de qual câmera estamos utilizando
         if (USE_WEBCAM) {
             visionPortal = VisionPortal.easyCreateWithDefaults(
-                hardwareMap.get(WebcamName.class, "Webcam 1"), tfod);
+                    hardwareMap.get(WebcamName.class, "Webcam 1"), tfod);
         } else {
             visionPortal = VisionPortal.easyCreateWithDefaults(
-                BuiltinCameraDirection.BACK, tfod);
+                    BuiltinCameraDirection.BACK, tfod);
         }
 
     }
@@ -122,10 +122,10 @@ public class TensorFlowEasy extends LinearOpMode {
         telemetry.addData("# Objects Detected", currentRecognitions.size());
 
         for (Recognition recognition : currentRecognitions) {
-            double x = (recognition.getLeft() + recognition.getRight()) / 2 ;
-            double y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
+            double x = (recognition.getLeft() + recognition.getRight()) / 2;
+            double y = (recognition.getTop() + recognition.getBottom()) / 2;
 
-            telemetry.addData(""," ");
+            telemetry.addData("", " ");
             telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
             telemetry.addData("- Position", "%.0f / %.0f", x, y);
             telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());

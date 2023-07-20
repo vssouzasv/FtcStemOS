@@ -34,10 +34,11 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@TeleOp(name="Arcade Drive", group="Linear Opmode")
+@TeleOp(name = "Arcade Drive", group = "Linear Opmode")
 public class ArcadeDrive extends LinearOpMode {
     ElapsedTime runtime = new ElapsedTime(); // Objeto que conta tempo
     private static final double CPR = 1140; // Variável que guarda o Count Per Revolution do motor
+
     @Override
     public void runOpMode() {
         // Imprime a mensagem de que o robô iniciou
@@ -71,7 +72,7 @@ public class ArcadeDrive extends LinearOpMode {
              * enquanto o direito controla o giro do robô
              */
             double drive = -gamepad1.left_stick_y;
-            double turn  =  gamepad1.right_stick_x;
+            double turn = gamepad1.right_stick_x;
             powerEsquerda = drive + turn;
             powerDireita = drive - turn;
 
@@ -80,7 +81,7 @@ public class ArcadeDrive extends LinearOpMode {
 
             // Caso o valor seja maior que 1 fazemos uma nivelação nas velocidades, já que o motor
             // tem uma saída máxima de -1 a 1.
-            if(Math.abs(max) > 1) {
+            if (Math.abs(max) > 1) {
                 powerEsquerda /= max;
                 powerDireita /= max;
             }
@@ -105,6 +106,7 @@ public class ArcadeDrive extends LinearOpMode {
             telemetry.update();
         }
     }
+
     // Função que tem como input a posição do motor em ticks e retorna as revoluções
     public double converterEncoder(double posicaoTicks) {
         return posicaoTicks / (CPR);

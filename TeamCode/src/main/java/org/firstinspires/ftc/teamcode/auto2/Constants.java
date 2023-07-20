@@ -11,12 +11,12 @@ public class Constants {
      * Para isso que temos esses valores.
      * VALORES DE COMPRIMENTO EM POLEGADAS
      */
-    static final double     COUNTS_PER_MOTOR_REV    = 1440; // CPR do motor, entre no site da fabricante
-    static final double     DRIVE_GEAR_REDUCTION    = 1.0;  // Redução entre motor e roda
-    static final double     WHEEL_DIAMETER_INCHES   = 4.0;  // Diâmetro da roda
-    static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+    static final double COUNTS_PER_MOTOR_REV = 1440; // CPR do motor, entre no site da fabricante
+    static final double DRIVE_GEAR_REDUCTION = 1.0;  // Redução entre motor e roda
+    static final double WHEEL_DIAMETER_INCHES = 4.0;  // Diâmetro da roda
+    static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415); // Fator de conversão
-    static final double     DRIVE_SPEED             = 0.6; // Com que tensão os motores se moverão para frente
-    static final double     TURN_SPEED              = 0.5; // Com que tensão os motores farão o robô girar
+    static final double DRIVE_SPEED = 0.6; // Com que tensão os motores se moverão para frente
+    static final double TURN_SPEED = 0.5; // Com que tensão os motores farão o robô girar
 
 }

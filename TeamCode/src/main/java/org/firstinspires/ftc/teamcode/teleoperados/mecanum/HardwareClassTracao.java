@@ -33,14 +33,15 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IMU;
+
 // Classe usada para inicializar todos os sensores e acionadores usados no robô
 public class HardwareClassTracao {
     OpMode opMode;
     //Declaração dos motores
-     DcMotor motorEsquerda = null;
-     DcMotor motorDireita = null;
-     DcMotor motorEsquerdaTras = null;
-     DcMotor motorDireitaTras = null;
+    DcMotor motorEsquerda = null;
+    DcMotor motorDireita = null;
+    DcMotor motorEsquerdaTras = null;
+    DcMotor motorDireitaTras = null;
 
     // Objeto da interface de giroscópio
     IMU imu;
@@ -49,6 +50,7 @@ public class HardwareClassTracao {
     public HardwareClassTracao(OpMode opMode) {
         this.opMode = opMode;
     }
+
     // Método que usamos para inicializar o hardware do sistema
     public void hardwareGeral() {
 
@@ -62,7 +64,7 @@ public class HardwareClassTracao {
 
         // Orientação do Control Hub/Expansion Hub
         RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
-        RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
+        RevHubOrientationOnRobot.UsbFacingDirection usbDirection = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
         RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
         // Inicializa o giroscópio
         imu.initialize(new IMU.Parameters(orientationOnRobot));
@@ -77,9 +79,9 @@ public class HardwareClassTracao {
         // Motores que usaremos para mechanum
         motorEsquerda = opMode.hardwareMap.get(DcMotor.class, "motor_esquerda");
         motorEsquerdaTras = opMode.hardwareMap.get(DcMotor.class, "motor_esquerdatras");
-        motorDireita = opMode.hardwareMap.get(DcMotor.class,"motor_direita");
-        motorDireitaTras = opMode.hardwareMap.get(DcMotor.class,"motor_direitatras");
+        motorDireita = opMode.hardwareMap.get(DcMotor.class, "motor_direita");
+        motorDireitaTras = opMode.hardwareMap.get(DcMotor.class, "motor_direitatras");
     }
 
- }
+}
 

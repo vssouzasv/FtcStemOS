@@ -32,6 +32,7 @@ package org.firstinspires.ftc.teamcode.auto.motor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous(name="Motor to sP", group="Robot")
@@ -48,26 +49,36 @@ public class ControleMotor extends LinearOpMode {
     double fatorDeConversao = (COUNTS_PER_MOTOR_REV  * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * Math.PI);
     @Override
     public void runOpMode() {
-        // Inicializando os 4 motores da tração
+        // Inicia o mtoor
         motor  = hardwareMap.get(DcMotor.class, "motor");
-       
-        motor.setDirection(DcMotor.Direction.REVERSE);
+        // Seta o motor como FORWARD
+        motor.setDirection(DcMotor.Direction.FORWARD);
+        // Para e reseta os encoder
         motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        
+
+        // Espera o start
         waitForStart();
 
         addSetpoint(20);
     }
 
     public void addSetpoint(int setPoint) {
+        // Define um objetivo
         int newSetPoint = motor.getCurrentPosition() + (int)(setPoint * fatorDeConversao);
+        // Define uma posição alvo
         motor.setTargetPosition(newSetPoint);
+        // Seta o motor para ir até a posição
+        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // Coloca o motor para se mover
         motor.setPower(0.5);
 
+        // Distância percorrida pelo motor
         while(motor.isBusy()) {
             telemetry.addData("Distância percorrida: ", (motor.getCurrentPosition() / fatorDeConversao));
         }
+        // Para os motores
+        motor.setPower(0);
+
+        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 }

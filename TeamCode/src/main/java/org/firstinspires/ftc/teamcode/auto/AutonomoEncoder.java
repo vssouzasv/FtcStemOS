@@ -75,7 +75,7 @@ public class AutonomoEncoder extends LinearOpMode {
         // comandos iguais para os 4 motores possa ser simplificado usando funções com loops
         motores = new DcMotor[]{motorEsquerda, motorDireita, motorEsquerdaTras, motorDireitaTras};
 
-        // Um dos lados do robô sempre tera motores invertidos, portanto revertar os motores aqui
+        // Um dos lados do robô sempre tera motores invertidos, portanto reverter os motores aqui
         // vale dizer que uma transmissão por engranagens inverte a direção do movimento
         motorEsquerda.setDirection(DcMotor.Direction.REVERSE);
         motorEsquerdaTras.setDirection(DcMotor.Direction.REVERSE);

@@ -77,7 +77,7 @@ public class ArcadeDrive extends LinearOpMode {
             powerDireita = drive - turn;
 
             // Atribuimos o valor máximo a variável max
-            double max = Math.max(powerEsquerda, powerDireita);
+            double max = Math.max(Math.abs(powerEsquerda), Math.abs(powerDireita));
 
             // Caso o valor seja maior que 1 fazemos uma nivelação nas velocidades, já que o motor
             // tem uma saída máxima de -1 a 1.

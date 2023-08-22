@@ -39,7 +39,8 @@ public class ControleMotor extends LinearOpMode {
 
     /* Declare OpMode members. */
     private DcMotor         motor   = null;
-    int setPoint = 20; // Inches
+
+    // Constantes para conversão
     static final double     COUNTS_PER_MOTOR_REV    = 1440; // CPR do motor, entre no site da fabricante
     static final double     DRIVE_GEAR_REDUCTION    = 1.0;  // Redução entre motor e roda
     
@@ -56,11 +57,15 @@ public class ControleMotor extends LinearOpMode {
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         
         waitForStart();
-        
+
+        addSetpoint(20);
+    }
+
+    public void addSetpoint(int setPoint) {
         int newSetPoint = motor.getCurrentPosition() + (int)(setPoint * fatorDeConversao);
         motor.setTargetPosition(newSetPoint);
         motor.setPower(0.5);
-        
+
         while(motor.isBusy()) {
             telemetry.addData("Distância percorrida: ", (motor.getCurrentPosition() / fatorDeConversao));
         }

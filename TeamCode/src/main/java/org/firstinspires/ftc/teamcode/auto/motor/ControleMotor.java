@@ -42,13 +42,15 @@ public class ControleMotor extends LinearOpMode {
     private DcMotor         motor   = null;
 
     // Constantes para conversão
-    static final double     COUNTS_PER_MOTOR_REV    = 1440; // CPR do motor, entre no site da fabricante
+    static final double     COUNTS_PER_MOTOR_REV    = 560; // CPR do motor, entre no site da fabricante
     static final double     DRIVE_GEAR_REDUCTION    = 1.0;  // Redução entre motor e roda
     
-    static final double     WHEEL_DIAMETER_INCHES   = 4.0;
+    static final double     WHEEL_DIAMETER_INCHES   = 1.96;
     double fatorDeConversao = (COUNTS_PER_MOTOR_REV  * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * Math.PI);
     @Override
     public void runOpMode() {
+        telemetry.addData("Status", "Iniciando");
+        telemetry.update();
         // Inicia o mtoor
         motor  = hardwareMap.get(DcMotor.class, "motor");
         // Seta o motor como FORWARD
@@ -59,7 +61,12 @@ public class ControleMotor extends LinearOpMode {
         // Espera o start
         waitForStart();
 
-        addSetpoint(20);
+        // Para adicionar objetivos apenas chame a função addSetpoint(valor em polegadas)
+        // Como não resetamos o encoder a cada movimento, a rotação será relativa ao motor
+        // Portanto se eu avançar para 10, e quiser voltar a 0, é necessário colocar -10
+        addSetpoint(10);
+        sleep(1000);
+        addSetpoint(-10);
     }
 
     public void addSetpoint(int setPoint) {
@@ -75,10 +82,12 @@ public class ControleMotor extends LinearOpMode {
         // Distância percorrida pelo motor
         while(motor.isBusy()) {
             telemetry.addData("Distância percorrida: ", (motor.getCurrentPosition() / fatorDeConversao));
+            telemetry.update();
         }
         // Para os motores
         motor.setPower(0);
 
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        sleep(500);
     }
 }

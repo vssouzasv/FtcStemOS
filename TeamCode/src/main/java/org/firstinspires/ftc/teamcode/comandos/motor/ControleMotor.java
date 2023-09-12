@@ -27,19 +27,22 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.auto.motor;
+package org.firstinspires.ftc.teamcode.comandos.motor;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 @Autonomous(name="Motor to sP", group="Robot")
 public class ControleMotor extends LinearOpMode {
 
     /* Declare OpMode members. */
-    private DcMotor         motor   = null;
+    private DcMotor motor   = null;
 
     // Constantes para conversão
     static final double     COUNTS_PER_MOTOR_REV    = 560; // CPR do motor, entre no site da fabricante

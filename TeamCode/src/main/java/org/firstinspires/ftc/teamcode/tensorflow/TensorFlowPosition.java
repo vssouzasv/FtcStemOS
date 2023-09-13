@@ -27,8 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.auto.tensorflow;
-
+package org.firstinspires.ftc.teamcode.tensorflow;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -40,95 +39,99 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
 import java.util.List;
 
-// Clase que faz a iniciação e leitura do TensorFlow
-@TeleOp(name = "TensorFlow Easy", group = "Concept")
-public class TensorFlowEasy extends LinearOpMode {
-    // Variável booleana que diz se usaremos webcam ou a câmera do celular
-    private static final boolean USE_WEBCAM = true;  // true para webcam
+
+@TeleOp(name = "TensorFlow Posicao", group = "Concept")
+public class TensorFlowPosition extends LinearOpMode {
+
+    private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
     /**
-     * Guarda a instância do objeto TensorFlow que processa as imagens
+     * The variable to store our instance of the TensorFlow Object Detection processor.
      */
     private TfodProcessor tfod;
 
     /**
-     * Guarda a instância do vision portal
+     * The variable to store our instance of the vision portal.
      */
     private VisionPortal visionPortal;
 
     @Override
     public void runOpMode() {
-        // Inicia o algoritmo TensorFlow
+
         initTfod();
 
-        // Espera pelo botão na driver station ser apertado
+        // Wait for the DS start button to be touched.
         telemetry.addData("DS preview on/off", "3 dots, Camera Stream");
         telemetry.addData(">", "Touch Play to start OpMode");
         telemetry.update();
         waitForStart();
 
-        // Se e enquanto o opMode estiver ativo faça
         if (opModeIsActive()) {
             while (opModeIsActive()) {
 
-                // Retorna as leituras do Tf
                 telemetryTfod();
 
-                // Atualiza a telemetria
+                // Push telemetry to the Driver Station.
                 telemetry.update();
 
-                // Possível escolher quando usar o Tf
+                // Save CPU resources; can resume streaming when needed.
                 if (gamepad1.dpad_down) {
                     visionPortal.stopStreaming();
                 } else if (gamepad1.dpad_up) {
                     visionPortal.resumeStreaming();
                 }
 
-                // Suaviza o uso de processamento
+                // Share the CPU.
                 sleep(20);
             }
         }
 
-        // Finaliza a câmera para quando não esitvermos mais usando o Tf
+        // Save more CPU resources when camera is no longer needed.
         visionPortal.close();
 
-    }
+    }   // end runOpMode()
 
     /**
-     * Inicializa a detecção de objetos TensorFlow
+     * Initialize the TensorFlow Object Detection processor.
      */
     private void initTfod() {
 
-        // Cria o processador do TensorFlow de forma fácil
+        // Create the TensorFlow processor the easy way.
         tfod = TfodProcessor.easyCreateWithDefaults();
 
-        // Cria o vision portal dependendo de qual câmera estamos utilizando
+        // Create the vision portal the easy way.
         if (USE_WEBCAM) {
             visionPortal = VisionPortal.easyCreateWithDefaults(
-                    hardwareMap.get(WebcamName.class, "Webcam 1"), tfod);
+                hardwareMap.get(WebcamName.class, "Webcam 1"), tfod);
         } else {
             visionPortal = VisionPortal.easyCreateWithDefaults(
-                    BuiltinCameraDirection.BACK, tfod);
+                BuiltinCameraDirection.BACK, tfod);
         }
 
-    }
+    }   // end method initTfod()
 
     /**
-     * Função que faz a telemetria da leitura do TensorFlow
+     * Add telemetry about TensorFlow Object Detection (TFOD) recognitions.
      */
+    double x;
+    double y;
     private void telemetryTfod() {
 
         List<Recognition> currentRecognitions = tfod.getRecognitions();
         telemetry.addData("# Objects Detected", currentRecognitions.size());
-
+        // Step through the list of recognitions and display info for each one.
         for (Recognition recognition : currentRecognitions) {
-            double x = (recognition.getLeft() + recognition.getRight()) / 2;
-            double y = (recognition.getTop() + recognition.getBottom()) / 2;
+            x = (recognition.getLeft() + recognition.getRight()) / 2 ;
+            y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
 
-            telemetry.addData("", " ");
+            telemetry.addData(""," ");
             telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
             telemetry.addData("- Position", "%.0f / %.0f", x, y);
+            telemetry.addData("- Lateral distance (L) (R)", "%.2f / %.2f", recognition.getLeft(), recognition.getRight());
+            telemetry.addData("- Vertical distance (U) (D)", "%.2f / %.2f", recognition.getTop(), recognition.getBottom());
             telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
-        }
-    }
-}
+        }   // end for() loop
+
+    }   // end method telemetryTfod()
+
+}   // end class

@@ -32,6 +32,7 @@ package org.firstinspires.ftc.teamcode.teleoperados.mecanum;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
 
 // Classe usada para inicializar todos os sensores e acionadores usados no robô
@@ -63,7 +64,7 @@ public class HardwareClassTracao {
         imu = opMode.hardwareMap.get(IMU.class, "imu");
 
         // Orientação do Control Hub/Expansion Hub
-        RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
+        RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.DOWN;
         RevHubOrientationOnRobot.UsbFacingDirection usbDirection = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
         RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
         // Inicializa o giroscópio
@@ -81,6 +82,12 @@ public class HardwareClassTracao {
         motorEsquerdaTras = opMode.hardwareMap.get(DcMotor.class, "motor_esquerdatras");
         motorDireita = opMode.hardwareMap.get(DcMotor.class, "motor_direita");
         motorDireitaTras = opMode.hardwareMap.get(DcMotor.class, "motor_direitatras");
+
+        motorEsquerda.setDirection(DcMotorSimple.Direction.FORWARD);
+        motorDireitaTras.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorDireita.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        imu.resetYaw();
     }
 
 }

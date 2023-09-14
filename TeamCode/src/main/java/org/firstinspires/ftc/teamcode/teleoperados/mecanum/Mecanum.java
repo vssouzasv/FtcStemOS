@@ -19,7 +19,7 @@ public class Mecanum extends LinearOpMode {
     double drive, turn, giro;
 
     // Vetor para acionamentos dos motores;
-    private final double[] poder = new double[4];
+    private double[] poder = new double[4];
 
     // Variável que guarda o ângulo do robô (radianos)
     double angle;
@@ -45,7 +45,7 @@ public class Mecanum extends LinearOpMode {
              * giro controla a rotação do robô
              */
             drive = -gamepad1.left_stick_y; // Negativo por causa do gamepad
-            turn = gamepad1.left_stick_x * 1.5; // Multiplicamos por um valor para melhorar o strafe
+            turn = gamepad1.left_stick_x * 1.2; // Multiplicamos por um valor para melhorar o strafe
             giro = gamepad1.right_stick_x;
 
             /*
@@ -86,7 +86,9 @@ public class Mecanum extends LinearOpMode {
             hard.motorEsquerdaTras.setPower(poder[1]);
             hard.motorDireita.setPower(poder[2]);
             hard.motorDireitaTras.setPower(poder[3]);
-
+            if(gamepad1.a) {
+                hard.imu.resetYaw();
+            }
             // Telemetria com os valores de cada roda
             telemetry.addData("Motor Esquerdo %.2f ", poder[0]);
             telemetry.addData("Motor EsquerdoTras %.2f ", poder[1]);
@@ -100,7 +102,7 @@ public class Mecanum extends LinearOpMode {
 
     // Função que calcula a orientação no campo
     private void fieldOriented(double driveP, double turnP) {
-        angle = Math.toRadians(gyroCalculate());
+        angle = gyroCalculate();
         drive = driveP * Math.cos(angle) - turnP * Math.sin(angle);
         turn = driveP * Math.sin(angle) + turnP * Math.cos(angle);
     }
@@ -108,6 +110,6 @@ public class Mecanum extends LinearOpMode {
     // Função que retorna a orientação do robô em graus
     private double gyroCalculate() {
         YawPitchRollAngles orientation = hard.imu.getRobotYawPitchRollAngles();
-        return orientation.getYaw(AngleUnit.DEGREES);
+        return orientation.getYaw(AngleUnit.RADIANS);
     }
 }

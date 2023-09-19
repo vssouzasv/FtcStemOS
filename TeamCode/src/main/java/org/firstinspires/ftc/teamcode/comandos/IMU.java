@@ -49,15 +49,16 @@ public class IMU extends LinearOpMode
     //----------------------------------------------------------------------------------------------
 
     @Override public void runOpMode() throws InterruptedException {
+        // obtém o objeto de giro da Driver Station
         imu = hardwareMap.get(com.qualcomm.robotcore.hardware.IMU.class, "imu");
 
+        // Altera a orientação do IMU
         RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
         RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
 
         RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
 
-        // Now initialize the IMU with this mounting orientation
-        // Note: if you choose two conflicting directions, this initialization will cause a code exception.
+        // Inicializa o IMU com as direções definidas
         imu.initialize(new com.qualcomm.robotcore.hardware.IMU.Parameters(orientationOnRobot));
 
         // Loop and update the dashboard
@@ -65,7 +66,7 @@ public class IMU extends LinearOpMode
 
             telemetry.addData("Hub orientation", "Logo=%s   USB=%s\n ", logoDirection, usbDirection);
 
-            // Check to see if heading reset is requested
+            // Opção de resetar heading pelo botão y do gamepad
             if (gamepad1.y) {
                 telemetry.addData("Yaw", "Resetting\n");
                 imu.resetYaw();
@@ -73,10 +74,11 @@ public class IMU extends LinearOpMode
                 telemetry.addData("Yaw", "Press Y (triangle) on Gamepad to reset\n");
             }
 
-            // Retrieve Rotational Angles and Velocities
+            // Obtém os ângulos e velocidades
             YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
             AngularVelocity angularVelocity = imu.getRobotAngularVelocity(AngleUnit.DEGREES);
 
+            // Adiciona telemetria para as saídas do giroscópio
             telemetry.addData("Yaw (Z)", "%.2f Deg. (Heading)", orientation.getYaw(AngleUnit.DEGREES));
             telemetry.addData("Pitch (X)", "%.2f Deg.", orientation.getPitch(AngleUnit.DEGREES));
             telemetry.addData("Roll (Y)", "%.2f Deg.\n", orientation.getRoll(AngleUnit.DEGREES));

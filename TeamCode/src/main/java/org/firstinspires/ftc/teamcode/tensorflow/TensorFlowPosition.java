@@ -28,14 +28,26 @@
  */
 
 package org.firstinspires.ftc.teamcode.tensorflow;
+import android.graphics.Bitmap;
+
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.google.blocks.ftcrobotcontroller.runtime.obsolete.VuforiaLocalizerAccess;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.function.Consumer;
+import org.firstinspires.ftc.robotcore.external.function.Continuation;
+import org.firstinspires.ftc.robotcore.external.function.ContinuationResult;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.stream.CameraStreamSource;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.List;
 
@@ -49,7 +61,7 @@ public class TensorFlowPosition extends LinearOpMode {
      * The variable to store our instance of the TensorFlow Object Detection processor.
      */
     private TfodProcessor tfod;
-
+    Telemetry telemetry;
     /**
      * The variable to store our instance of the vision portal.
      */
@@ -57,14 +69,16 @@ public class TensorFlowPosition extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-
+        FtcDashboard dashboard = FtcDashboard.getInstance();
         initTfod();
-
+        telemetry = dashboard.getTelemetry();
         // Wait for the DS start button to be touched.
         telemetry.addData("DS preview on/off", "3 dots, Camera Stream");
         telemetry.addData(">", "Touch Play to start OpMode");
         telemetry.update();
+
         waitForStart();
+
 
         if (opModeIsActive()) {
             while (opModeIsActive()) {
@@ -85,7 +99,6 @@ public class TensorFlowPosition extends LinearOpMode {
                 sleep(20);
             }
         }
-
         // Save more CPU resources when camera is no longer needed.
         visionPortal.close();
 
@@ -107,7 +120,6 @@ public class TensorFlowPosition extends LinearOpMode {
             visionPortal = VisionPortal.easyCreateWithDefaults(
                 BuiltinCameraDirection.BACK, tfod);
         }
-
     }   // end method initTfod()
 
     /**
@@ -130,6 +142,14 @@ public class TensorFlowPosition extends LinearOpMode {
             telemetry.addData("- Lateral distance (L) (R)", "%.2f / %.2f", recognition.getLeft(), recognition.getRight());
             telemetry.addData("- Vertical distance (U) (D)", "%.2f / %.2f", recognition.getTop(), recognition.getBottom());
             telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
+
+            if(x > 300 && x <= 375) {
+                telemetry.addData("Pixel no lado ", "meio");
+            } else if(x <= 300) {
+                telemetry.addData("Pixel no lado ", "esquerdo");
+            } else {
+                telemetry.addData("Pixel no lado ", "direito");
+            }
         }   // end for() loop
 
     }   // end method telemetryTfod()
